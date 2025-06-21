@@ -1,4 +1,5 @@
 import type { ISU } from ".";
+import mockInterface from "../test3";
 
 export interface ITransactionTable {
 	id: ISU.Generated<string>;
@@ -26,3 +27,6 @@ export interface IStoreTable {
 export interface IStore extends ISU.Selectable<IStoreTable> {}
 export interface IInsertStore extends ISU.Insertable<IStoreTable> {}
 export interface IUpdateStore extends ISU.Updateable<IStoreTable> {}
+
+const generateFakeInsertTransaction = mockInterface<IInsertTransaction>("IInsertTransaction", __filename);
+console.log("Fake Insert Transaction:", generateFakeInsertTransaction(10));
