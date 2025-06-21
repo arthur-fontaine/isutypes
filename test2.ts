@@ -40,16 +40,16 @@ function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = n
   const text = type.getText();
 
   // Types primitifs et globaux avec Faker
-  if (text === "string" || text.startsWith("string |")) {
+  if (text === "string") {
     return "faker.lorem.word()";
   }
-  if (text === "number" || text.startsWith("number |")) {
+  if (text === "number") {
     return "faker.number.int({ min: 1, max: 100 })";
   }
-  if (text === "boolean" || text.startsWith("boolean |")) {
+  if (text === "boolean") {
     return "faker.datatype.boolean()";
   }
-  if (text === "Date" || text.startsWith("Date |")) {
+  if (text === "Date") {
     return "faker.date.recent()";
   }
   if (text === "null") {
@@ -65,12 +65,7 @@ function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = n
   // Types union
   if (type.isUnion()) {
     const unionTypes = type.getUnionTypes();
-    // Prend le premier type non-null/undefined pour la génération
-    const nonNullType = unionTypes.find(t => !t.getText().includes("null") && !t.getText().includes("undefined"));
-    if (nonNullType) {
-      return generateMockValue(nonNullType, depth, visited);
-    }
-    return generateMockValue(unionTypes[0], depth, visited);
+    return `faker.helpers.arrayElement([${unionTypes.map(t => generateMockValue(t, depth, visited)).join(", ")}])`;
   }
 
   const apparent = type.getApparentType();
@@ -133,6 +128,7 @@ function create${iface.getName()}Mocks(count = 5) {
 (create${iface.getName()}Mocks);
 `;
 
+console.log(mockGenerator);
 const generate = (function(faker) { return eval(mockGenerator) })(faker);
 const mockDate = generate(3);
 
