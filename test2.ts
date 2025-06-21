@@ -17,7 +17,7 @@ if (!iface) {
   process.exit(1);
 }
 
-function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = new Set<string>()): string {
+function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = new Set<string>(), propName?: string): string {
   const indent = "  ".repeat(depth);
 
   if (type.isArray()) {
@@ -41,6 +41,9 @@ function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = n
 
   // Types primitifs et globaux avec Faker
   if (text === "string") {
+    if (propName && propName.toLowerCase() === "email") return "faker.internet.email()";
+    if (propName && propName.toLowerCase() === "currency") return "faker.finance.currencyCode()";
+
     return "faker.lorem.word()";
   }
   if (text === "number") {
@@ -103,7 +106,7 @@ function generateMockValue(type: import("ts-morph").Type, depth = 0, visited = n
         return null; // 30% de chance d'omettre une propriété optionnelle
       }
 
-      const mockValue = generateMockValue(propType, depth + 1, visited);
+      const mockValue = generateMockValue(propType, depth + 1, visited, propName);
       return `${indent}  ${propName}: ${mockValue},`;
     })
     .filter(Boolean); // Retire les valeurs null
@@ -128,7 +131,6 @@ function create${iface.getName()}Mocks(count = 5) {
 (create${iface.getName()}Mocks);
 `;
 
-console.log(mockGenerator);
 const generate = (function(faker) { return eval(mockGenerator) })(faker);
 const mockDate = generate(3);
 
