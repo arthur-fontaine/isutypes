@@ -1,5 +1,5 @@
-import type { Special } from "./special";
-import type { Table } from "./table";
+import type { Special } from "./special.ts";
+import type { Table } from "./table.ts";
 
 declare const __generated: unique symbol;
 

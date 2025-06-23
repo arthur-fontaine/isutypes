@@ -1,12 +1,12 @@
-import type { InsertableGenerated, SelectableGenerated } from "./generated";
-import type { InsertableManyReference, SelectableManyReference } from "./many-reference";
-import type { Merge4Types } from "./merge-types";
-import type { InsertableSingleReference, SelectableSingleReference } from "./single-reference";
-import type { SelectableNotSpecial, InsertableNotSpecial } from "./special";
-import type { Table } from "./table";
-import type { Generated as Generated_ } from "./generated";
-import type { SingleReference as SingleReference_ } from "./single-reference";
-import type { ManyReference as ManyReference_ } from "./many-reference";
+import type { InsertableGenerated, SelectableGenerated } from "./generated.ts";
+import type { InsertableManyReference, SelectableManyReference } from "./many-reference.ts";
+import type { Merge4Types } from "./merge-types.ts";
+import type { InsertableSingleReference, SelectableSingleReference } from "./single-reference.ts";
+import type { SelectableNotSpecial, InsertableNotSpecial } from "./special.ts";
+import type { Table } from "./table.ts";
+import type { Generated as Generated_ } from "./generated.ts";
+import type { SingleReference as SingleReference_ } from "./single-reference.ts";
+import type { ManyReference as ManyReference_ } from "./many-reference.ts";
 
 export namespace ISU {
   export type Generated<T> = Generated_<T>;

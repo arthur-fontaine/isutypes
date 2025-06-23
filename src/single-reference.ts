@@ -1,6 +1,6 @@
-import type { ISU } from ".";
-import type { Special } from "./special";
-import type { Table } from "./table";
+import type { ISU } from "./index.ts";
+import type { Special } from "./special.ts";
+import type { Table } from "./table.ts";
 
 declare const __singleReference: unique symbol;
 

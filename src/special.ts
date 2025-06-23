@@ -1,4 +1,4 @@
-import type { Table } from "./table";
+import type { Table } from "./table.ts";
 
 declare const __special: unique symbol;
 
