@@ -4,7 +4,11 @@ import type { Table } from "./table.ts";
 
 declare const __manyReference: unique symbol;
 
-export type ManyReference<T> = Special<T & { [__manyReference]: true }>;
+export type ManyReference<T> = Special<T & {
+  [__manyReference]: {
+    type: T;
+  }
+}>;
 
 export type SelectableManyReference<T extends Table> =
   {
