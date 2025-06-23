@@ -10,7 +10,7 @@ import type { ManyReference as ManyReference_ } from "./many-reference.ts";
 
 export namespace ISU {
   export type Generated<T> = Generated_<T>;
-  export type SingleReference<T extends Table, IN extends string, OUT extends keyof NonNullable<Selectable<T>>> = SingleReference_<T, IN, OUT>;
+  export type SingleReference<T extends Table | null, IN extends string, OUT extends keyof NonNullable<Selectable<NonNullable<T>>>> = SingleReference_<T, IN, OUT>;
   export type ManyReference<T> = ManyReference_<T>;
 
   export type Selectable<T extends Table> = Merge4Types<
