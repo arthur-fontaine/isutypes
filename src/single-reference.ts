@@ -4,7 +4,7 @@ import type { Table } from "./table.ts";
 
 declare const __singleReference: unique symbol;
 
-export type SingleReference<T extends Table, IN extends string, OUT extends keyof NonNullable<T>> = Special<T & {
+export type SingleReference<T extends Table | null, IN extends string, OUT extends keyof NonNullable<T>> = Special<T & {
   [__singleReference]: {
     input: IN;
     output: OUT;
@@ -12,25 +12,25 @@ export type SingleReference<T extends Table, IN extends string, OUT extends keyo
   };
 }>;
 
-export type SelectableSingleReference<T extends Table> =
+export type SelectableSingleReference<T extends Table | null> =
   {
     // @ts-expect-error any is used to allow for any type of input
-    [K in keyof T as T[K] extends SingleReference<unknown, string, any> ? K : never]:
-    T[K] extends SingleReference<infer U, string, any> ? PotentialNullable<U, ISU.Selectable<U>> : never;
+    [K in keyof NonNullable<T> as NonNullable<T>[K] extends SingleReference<unknown, string, any> ? K : never]:
+    NonNullable<T>[K] extends SingleReference<infer U, string, any> ? PotentialNullable<U, ISU.Selectable<NonNullable<U>>> : never;
   } &
   {
     // @ts-expect-error any is used to allow for any type of input
-    [K in keyof T as T[K] extends SingleReference<unknown, infer IN, any> ? IN : never]:
+    [K in keyof NonNullable<T> as NonNullable<T>[K] extends SingleReference<unknown, infer IN, any> ? IN : never]:
     // @ts-expect-error _ is here in any case as it is manually added
-    T[K] extends SingleReference<infer S, string, infer OUT> ? PotentialNullable<S, ISU.Selectable<{ '_': NonNullable<S>[OUT] }>['_']> : never;
+    NonNullable<T>[K] extends SingleReference<infer S, string, infer OUT> ? PotentialNullable<S, ISU.Selectable<{ '_': NonNullable<S>[OUT] }>['_']> : never;
   };
 
-export type InsertableSingleReference<T extends Table> =
+export type InsertableSingleReference<T extends Table | null> =
   {
     // @ts-expect-error any is used to allow for any type of input
-    [K in keyof T as T[K] extends SingleReference<unknown, infer IN, any> ? IN : never]:
+    [K in keyof NonNullable<T> as NonNullable<T>[K] extends SingleReference<unknown, infer IN, any> ? IN : never]:
     // @ts-expect-error _ is here in any case as it is manually added
-    T[K] extends SingleReference<infer S, string, infer OUT> ? PotentialNullable<S, ISU.Selectable<{ '_': NonNullable<S>[OUT] }>['_']> : never;
+    NonNullable<T>[K] extends SingleReference<infer S, string, infer OUT> ? PotentialNullable<S, ISU.Selectable<{ '_': NonNullable<S>[OUT] }>['_']> : never;
   }
 
 type PotentialNullable<T, REAL_TYPE> = null extends T ? REAL_TYPE | null : REAL_TYPE;
