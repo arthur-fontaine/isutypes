@@ -1,5 +1,6 @@
 {
   "name": "isutypes",
+  "version": "0.1.0",
   "files": ["src"],
   "module": "src/index.ts",
   "main": "src/index.ts",
